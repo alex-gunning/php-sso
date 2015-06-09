@@ -1,5 +1,5 @@
 # php-sso
-SSO with various systems using the CRON-session cookie technique.
+SSO with various systems using the CURL-session cookie technique.
 
 This is only the base plugin. Forks will be used for the various systems.
 
