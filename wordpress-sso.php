@@ -6,11 +6,11 @@
 Plugin Name: Wordpress Single Sign-On
 Description: Sign on to an arbitrary system with CRON using the same login credentials as Wordpress.
 Version: 1.0.0
-Author: Alex Gunning
+Author: <a href="https://github.com/alex-gunning">Alex Gunning</a>
 License: GPLv2
 Text Domain: moodle-sso
 */
-/*  Copyright 2015  Alex Gunning
+/*  Copyright 2015  <a href="https://github.com/alex-gunning">Alex Gunning</a>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -119,17 +119,17 @@ class WORDPRESS_SSO {
 		$cookies = array();
 		foreach ($ms[1] as $m) {
 		    list($name, $value) = explode('=', $m, 2);    
-		    $cookies[$name] = (stripos($value, 'path=') ? array("location" => substr(stristr($value, 'path='), 5),
-		    													"value" => substr($value, 0, strpos($value, 'path=')-2)) : substr($value, 0, -1));
+            $cookies[] = array('name' => $name, 'content' => (stripos($value, 'path=') ? array("path" => substr(stristr($value, 'path='), 5),
+                                                                "value" => substr($value, 0, strpos($value, 'path=')-2)) : substr($value, 0, -1)));
 		}
 		
-		foreach($cookies as $name=>$value) {
-			if(is_array($value)) {
-				setcookie($name, $value['value'], 0, $value['location']);
-			} else {
-				setcookie($name, $value, 0);
-			}
-		}
+		foreach($cookies as $cookie) {    
+            if(is_array($cookie['content'])) {
+                setcookie($cookie['name'], $cookie['content']['value'], 0, $cookie['content']['path']);
+            } else {
+                setcookie($name, $cookie['content']['value'], 0);
+            }
+        }
 
 
 	}
